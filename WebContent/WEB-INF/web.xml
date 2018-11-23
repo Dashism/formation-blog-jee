@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>blog</display-name>
+	
+	<servlet>
+		<servlet-name>IndexServlet</servlet-name>
+		<servlet-class>fr.formation.blog.presentation.IndexServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>IndexServlet</servlet-name>
+		<url-pattern>/index.html</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>FormServlet</servlet-name>
+		<servlet-class>fr.formation.blog.presentation.FormServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>FormServlet</servlet-name>
+		<url-pattern>/form.html</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DeleteServlet</servlet-name>
+		<servlet-class>fr.formation.blog.presentation.DeleteServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>DeleteServlet</servlet-name>
+		<url-pattern>/delete.html</url-pattern>
+	</servlet-mapping>
+</web-app>
