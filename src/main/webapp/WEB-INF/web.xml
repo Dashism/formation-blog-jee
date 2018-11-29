@@ -4,32 +4,40 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>blog</display-name>
-	
+
+	<!-- Déclaration d'une servlet pour servir la page d'accueil. -->
 	<servlet>
+		<!-- Déclaration d'un nom unique dans l'application pour cette servlet. -->
 		<servlet-name>IndexServlet</servlet-name>
+		<!-- Lien avec la classe Java ayant les méthodes capables de répondre aux 
+			requêtes HTTP -->
 		<servlet-class>fr.formation.blog.presentation.IndexServlet</servlet-class>
 	</servlet>
-	
+
+	<!-- Déclaration du lien au modèle (pattern) d'URL qui déclenche la servlet. -->
 	<servlet-mapping>
+		<!-- Réutilisation du nom de servlet unique déclaré ligne 11. -->
 		<servlet-name>IndexServlet</servlet-name>
+		<!-- Modèle d'URL -> exactement '/index.html'. Cette URL est aussi déclenchée 
+			par '/', c'est un automatisme des serveur Web. -->
 		<url-pattern>/index.html</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>FormServlet</servlet-name>
 		<servlet-class>fr.formation.blog.presentation.FormServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>FormServlet</servlet-name>
 		<url-pattern>/form.html</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>DeleteServlet</servlet-name>
 		<servlet-class>fr.formation.blog.presentation.DeleteServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>DeleteServlet</servlet-name>
 		<url-pattern>/delete.html</url-pattern>

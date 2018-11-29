@@ -4,28 +4,32 @@ import java.util.List;
 
 import fr.formation.blog.persistance.ArticleDao;
 
+/**
+ * Classe métier intermédiaire entre la couche présentation (les Servlet) et la
+ * couche persistence (les DAO).
+ */
 public class ArticleService {
 
 	private static final ArticleService INSTANCE = new ArticleService();
-	
+
 	public static ArticleService getInstance() {
 		return ArticleService.INSTANCE;
 	}
-	
+
 	private final ArticleDao dao;
-	
+
 	public ArticleService() {
 		this.dao = new ArticleDao();
 	}
-	
+
 	public List<Article> getAll() {
 		return this.dao.readAll();
 	}
-	
+
 	public void addArticle(String title, String content) {
 		this.dao.create(new Article(title, content));
 	}
-	
+
 	public void deleteArticle(Integer id) {
 		this.dao.delete(id);
 	}

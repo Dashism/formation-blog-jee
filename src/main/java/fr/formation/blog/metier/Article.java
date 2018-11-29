@@ -16,19 +16,33 @@ import javax.persistence.Table;
  * <li>Des accesseurs pour chaque attribut</li>
  * <li style="color:red;">Surtout pas de méthodes de traitement !</li>
  * </ul>
+ * 
+ * Représentation d'une entité de la base de données liée à la table 'article'.
  */
 @Entity
-@Table(name="article")
+@Table(name = "article")
 public class Article {
 
+	/**
+	 * Définition d'un attribut Java correspondant à la clé primaire (PK).
+	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	// On précise que cet attribut est une valeur générée par la base de données
+	// (Auto-Increment).
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	// Déclaration du lien avec la colonne 'id' de la table 'article'.
+	@Column(name = "id")
 	private Integer id;
 
-	@Column(name="title")
+	/**
+	 * Déclaration du lien avec la colonne 'title' de la table 'article'.
+	 */
+	@Column(name = "title")
 	private String title;
 
+	/**
+	 * Déclaration du lien avec la colonne 'content' de la table 'article'.
+	 */
 	@Column
 	private String content;
 
@@ -39,7 +53,7 @@ public class Article {
 		this.title = title;
 		this.content = content;
 	}
-	
+
 	public Article(Integer id, String title, String content) {
 		this(title, content);
 		this.id = id;

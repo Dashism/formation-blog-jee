@@ -8,6 +8,12 @@ import javax.persistence.TypedQuery;
 
 import fr.formation.blog.metier.Article;
 
+/**
+ * Implémentation d'un DAO pour l'entité Article. On utilise l'instance de
+ * EntityManager pour effectuer des actions CRUD dans le contexte de persistence
+ * JPA. Ce contexte de persistence est synchronisé en continue avec les
+ * informations dans la base de données.
+ */
 public class ArticleDao implements Dao<Article> {
 
 	private final MySqlConnection mysqlConn;
@@ -18,6 +24,10 @@ public class ArticleDao implements Dao<Article> {
 		this.em = this.mysqlConn.getEntityManager();
 	}
 
+	/**
+	 * {@inheritDoc} Utilise EntityManager.persist pour ajouter l'entité dans le
+	 * contexte de persistence JPA.
+	 */
 	@Override
 	public Article create(Article entity) {
 		this.em.getTransaction().begin();
@@ -26,6 +36,10 @@ public class ArticleDao implements Dao<Article> {
 		return entity;
 	}
 
+	/**
+	 * {@inheritDoc} Utilise EntityManager.read pour lire l'entité en BDD et la
+	 * placer dans le contexte de persistence JPA.
+	 */
 	@Override
 	public Article read(Integer id) {
 		Article result = null;
@@ -33,6 +47,11 @@ public class ArticleDao implements Dao<Article> {
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc} Utilise EntityManager pour éxécuter une requête JPQL avec
+	 * getResultList() pour récupérer plusieurs résultats. Place aussi toutes
+	 * les entités lues dans le contexte de persistence JPA.
+	 */
 	@Override
 	public List<Article> readAll() {
 		List<Article> results = new ArrayList<>();
@@ -42,6 +61,10 @@ public class ArticleDao implements Dao<Article> {
 		return results;
 	}
 
+	/**
+	 * {@inheritDoc} Utilise EntityManager.merge pour mettre à jour l'entité
+	 * dans le contexte de persistence JPA.
+	 */
 	@Override
 	public Article update(Article entity) {
 		this.em.getTransaction().begin();
@@ -50,6 +73,9 @@ public class ArticleDao implements Dao<Article> {
 		return entity;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean delete(Integer id) {
 		boolean result = false;

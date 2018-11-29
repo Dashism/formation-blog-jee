@@ -1,15 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Ci-dessus : Entête XML générique permettant de définir le jeu de caractères 
+	utilisé. Le commentaire est en dessous car cette entête ne peut exister que 
+	sur la toute première ligne du fichier. -->
+
+<!-- Balise/Element racine de la configuration d'un projet Maven. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- Balise technique toujours identique dans chaque POM (permet la compatibilité 
+		avec de vieilles versions). -->
 	<modelVersion>4.0.0</modelVersion>
 
+	<!-- Identification unique du projet -> fr.formation:blog:0.0.1:war. Cette 
+		identification est obligatoire pour chaque projet Maven. De cette manière 
+		chaque projet peut être publié sur le repository Maven Central (mvnrepository.com) -->
+	<!-- L'identifiant du groupe détermine à qui appartient le projet Maven. 
+		Chaque groupe est séparé par le caractère '.' et de manière similaire aux 
+		packages Java ils s'imbriquent les uns dans les autres. -->
 	<groupId>fr.formation</groupId>
+	<!-- Nom du projet unique dans son groupe. -->
 	<artifactId>blog</artifactId>
+	<!-- Version actuelle du projet. Il doit toujours il y avoir une version 
+		pour un projet Maven. -->
 	<version>0.0.1</version>
+	<!-- Le packaging détermine le type de livrable Java qui sera construit 
+		dans le 'build'. JAR (Java ARchive) pour les applications Java SE et WAR 
+		(Web ARchive) pour les applications Web. Il existe aussi EAR pour Enterprise 
+		ARchive et les serveurs d'applications J2EE. -->
 	<packaging>war</packaging>
 
+	<!-- Déclaration des dépendances du projet vers du code tiers : API, librairies, 
+		frameworks, etc... -->
 	<dependencies>
+		<!-- API Java EE Servlet et JSP intégrées dans Tomcat ET nécessaires à 
+			la compilation du projet (scope=provided). -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -22,21 +47,27 @@
 			<version>2.3.3</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- Java Standard Tag Library : ajout des balises java utiles dans les 
+			pages JSP (if, forEach, choose/when, url, etc...). -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<!-- Driver Java Mysql 8 pour l'API JDBC (JDBC est dans Java SE). -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.13</version>
 		</dependency>
+		<!-- Librairie Log4J permettant d'utiliser des messages de Log uniformisés. -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		<!-- Cette dépendance comprend tout ce qui est nécessaire à Hibernate (dont 
+			l'API JPA de Java EE) pour fonctionner avec le minimum. -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -44,9 +75,19 @@
 		</dependency>
 	</dependencies>
 
+	<!-- Propriétés permettant de changer des paramètres dans les tâches de 
+		Maven. -->
 	<properties>
+		<!-- Configure le plugin 'compile' de Maven qui effectue la compilation 
+			des classes Java. -->
+		<!-- Version source de Java : la version minimum à utiliser pour compiler 
+			le code Java du projet. -->
 		<maven.compiler.source>1.8</maven.compiler.source>
+		<!-- Version target de Java : la version minimum à utiliser pour éxécuter 
+			le code Java du projet. -->
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<!-- Configure les plugins de type 'build' de Maven pour forcer l'utilisation 
+			du jeu de caracètre donné. -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 </project>
