@@ -1,81 +1,62 @@
 package fr.formation.blog.persistance;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import fr.formation.blog.metier.Article;
 
 public class ArticleDao implements Dao<Article> {
-	
+
 	private final MySqlConnection mysqlConn;
-	
+	private final EntityManager em;
+
 	public ArticleDao() {
 		this.mysqlConn = MySqlConnection.getInstance();
+		this.em = this.mysqlConn.getEntityManager();
 	}
 
 	@Override
 	public Article create(Article entity) {
-		try {
-			Statement st = this.mysqlConn.getConn().createStatement();
-			String query = String.format(SqlQueries.CREATE_ARTICLE, entity.getTitle(), entity.getContent());
-			System.out.println("Requête créer un article : " + query);
-			boolean success = st.execute(query, Statement.RETURN_GENERATED_KEYS);
-			if (success) {
-				ResultSet rs = st.getGeneratedKeys();
-				Integer articleId = rs.getInt("GENERATED_KEY");
-				entity.setId(articleId);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		this.em.getTransaction().begin();
+		this.em.persist(entity);
+		this.em.getTransaction().commit();
 		return entity;
 	}
 
 	@Override
 	public Article read(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		Article result = null;
+		result = this.em.find(Article.class, id);
+		return result;
 	}
 
 	@Override
 	public List<Article> readAll() {
 		List<Article> results = new ArrayList<>();
-		try {
-			Statement st = this.mysqlConn.getConn().createStatement();
-			ResultSet rs = st.executeQuery(SqlQueries.READ_ALL_ARTICLE);
-			while(rs.next()) {
-				Integer id = rs.getInt("id");
-				String title = rs.getString("title");
-				String content = rs.getString("content");
-				results.add(new Article(id, title, content));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		TypedQuery<Article> query = this.em
+				.createQuery(JpqlQueries.READL_ALL_ARTICLE, Article.class);
+		results.addAll(query.getResultList());
 		return results;
 	}
 
 	@Override
 	public Article update(Article entity) {
-		// TODO Auto-generated method stub
-		return null;
+		this.em.getTransaction().begin();
+		entity = this.em.merge(entity);
+		this.em.getTransaction().commit();
+		return entity;
 	}
 
 	@Override
 	public boolean delete(Integer id) {
 		boolean result = false;
-		try {
-			Statement st = this.mysqlConn.getConn().createStatement();
-			int rows = st.executeUpdate(String.format(SqlQueries.DELETE_ARTICLE, id));
-			if (rows > 0) {
-				result = true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		this.em.getTransaction().begin();
+		Article article = this.read(id);
+		this.em.remove(article);
+		this.em.getTransaction().commit();
 		return result;
 	}
 

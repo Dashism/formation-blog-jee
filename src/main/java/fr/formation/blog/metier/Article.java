@@ -1,5 +1,12 @@
 package fr.formation.blog.metier;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Définition d'un POJO (Plain Old Java Object), une classe qui respecte les
  * contraintes suivantes :
@@ -10,12 +17,19 @@ package fr.formation.blog.metier;
  * <li style="color:red;">Surtout pas de méthodes de traitement !</li>
  * </ul>
  */
+@Entity
+@Table(name="article")
 public class Article {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private Integer id;
 
+	@Column(name="title")
 	private String title;
 
+	@Column
 	private String content;
 
 	public Article() {
