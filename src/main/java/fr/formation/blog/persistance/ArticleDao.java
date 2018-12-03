@@ -22,12 +22,11 @@ public class ArticleDao implements Dao<Article> {
 			Statement st = this.mysqlConn.getConn().createStatement();
 			String query = String.format(SqlQueries.CREATE_ARTICLE, entity.getTitle(), entity.getContent());
 			System.out.println("Requête créer un article : " + query);
-			boolean success = st.execute(query, Statement.RETURN_GENERATED_KEYS);
-			if (success) {
-				ResultSet rs = st.getGeneratedKeys();
-				Integer articleId = rs.getInt("GENERATED_KEY");
-				entity.setId(articleId);
-			}
+			st.execute(query, Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = st.getGeneratedKeys();
+			rs.next();
+			Integer articleId = rs.getInt("GENERATED_KEY");
+			entity.setId(articleId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -60,8 +59,8 @@ public class ArticleDao implements Dao<Article> {
 
 	@Override
 	public Article update(Article entity) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO: Mise à jour en BDD.
+		return entity;
 	}
 
 	@Override
