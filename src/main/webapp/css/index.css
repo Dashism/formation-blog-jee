@@ -1,0 +1,9 @@
+div.article {
+	background-color: #DEC1FF;
+	transition: background 1s;
+}
+
+div.article.withmouse {
+	background-color: #7D70BA;
+	transition: background 1s;
+}

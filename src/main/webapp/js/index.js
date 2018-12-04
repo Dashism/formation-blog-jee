@@ -4,10 +4,10 @@
  */
 function enterDiv(event) {
 	var target = event.target || event.currentTarget;
-	target.style.backgroundColor = '#7D70BA';
+	target.classList.add("withmouse");
 }
 
 function leaveDiv(event) {
 	var target = event.target || event.currentTarget;
-	target.style.backgroundColor = '#DEC1FF';
+	target.classList.remove("withmouse");
 }
