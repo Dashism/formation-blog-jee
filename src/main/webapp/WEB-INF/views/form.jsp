@@ -5,8 +5,6 @@
 <html>
 <head>
 	<jsp:include page="header.jsp" />
-	
-	<script src="js/form.js"></script>
 </head>
 <body>
 	<h1>Créer un article :</h1>
@@ -22,5 +20,6 @@
 		</div>
 		<button>Valider</button>
 	</form>
+	<script src="js/form.js"></script>
 </body>
 </html>
