@@ -34,4 +34,14 @@
 		<servlet-name>DeleteServlet</servlet-name>
 		<url-pattern>/delete.html</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DataServlet</servlet-name>
+		<servlet-class>fr.formation.blog.presentation.DataServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>DataServlet</servlet-name>
+		<url-pattern>/data/*</url-pattern>
+	</servlet-mapping>
 </web-app>
