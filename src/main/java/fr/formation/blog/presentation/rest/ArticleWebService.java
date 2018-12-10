@@ -4,6 +4,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
@@ -52,11 +53,24 @@ public class ArticleWebService {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
-	
+
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Integer id) {
 		ArticleService.getInstance().deleteArticle(id);
 		return Response.noContent().build();
+	}
+
+	@PUT
+	public Response update(@FormParam("id") Integer id,
+			@FormParam("title") String title,
+			@FormParam("content") String content) {
+		if (ArticleService.getInstance().updateArticle(id, title, content)) {
+			return Response.noContent().build();
+		} else {
+			return Response.status(Status.BAD_REQUEST).entity(
+					"Le paramètre 'id' est manquant dans le corps de la requête.")
+					.build();
+		}
 	}
 }

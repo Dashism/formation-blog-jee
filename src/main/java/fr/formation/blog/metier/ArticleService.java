@@ -27,6 +27,17 @@ public class ArticleService {
 		return newArticle.getId() != null;
 	}
 	
+	public boolean updateArticle(Integer id, String title, String content) {
+		boolean result = false;
+		// Si l'identifiant correspond bien à un article existant.
+		// TODO : appeler dao.read(id).
+		if (id != null) {
+			this.dao.update(new Article(id, title, content));
+			result = true;
+		}
+		return result;
+	}
+	
 	public void deleteArticle(Integer id) {
 		this.dao.delete(id);
 	}
