@@ -22,8 +22,9 @@ public class ArticleService {
 		return this.dao.readAll();
 	}
 	
-	public void addArticle(String title, String content) {
-		this.dao.create(new Article(title, content));
+	public boolean addArticle(String title, String content) {
+		Article newArticle = this.dao.create(new Article(title, content));
+		return newArticle.getId() != null;
 	}
 	
 	public void deleteArticle(Integer id) {

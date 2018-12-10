@@ -6,6 +6,20 @@
 	<display-name>blog</display-name>
 	
 	<servlet>
+		<servlet-name>Jersey Web Services</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>fr.formation.blog.presentation.rest</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Jersey Web Services</servlet-name>
+		<url-pattern>/webservices/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>IndexServlet</servlet-name>
 		<servlet-class>fr.formation.blog.presentation.IndexServlet</servlet-class>
 	</servlet>

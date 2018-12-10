@@ -77,4 +77,9 @@ public class Article {
 		this.content = content;
 	}
 
+	@Override
+	public String toString() {
+		return "(id=" + this.id + ", title=" + this.title + ")";
+	}
+
 }
