@@ -36,8 +36,18 @@ public class ArticleDao implements Dao<Article> {
 
 	@Override
 	public Article read(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		Article result = null;
+		try {
+			Statement st = this.mysqlConn.getConn().createStatement();
+			ResultSet rs = st.executeQuery(SqlQueries.READ_ALL_ARTICLE);
+			rs.next();
+			String title = rs.getString("title");
+			String content = rs.getString("content");
+			result = new Article(id, title, content);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
@@ -65,7 +75,7 @@ public class ArticleDao implements Dao<Article> {
 			Statement st = this.mysqlConn.getConn().createStatement();
 			int rows = st.executeUpdate(String.format(SqlQueries.UPDATE_ARTICLE,
 					entity.getTitle(), entity.getContent(), entity.getId()));
-			if (rows > 0 ) {
+			if (rows > 0) {
 				updated = entity;
 			}
 		} catch (SQLException e) {
