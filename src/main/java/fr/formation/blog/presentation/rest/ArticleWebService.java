@@ -22,6 +22,16 @@ public class ArticleWebService {
 				.build();
 	}
 
+	@POST
+	public Response create(@FormParam("title") String title,
+			@FormParam("content") String content) {
+		Boolean createOk = ArticleService.getInstance().addArticle(title,
+				content);
+		return Response
+				.status(createOk ? Status.OK : Status.INTERNAL_SERVER_ERROR)
+				.entity(createOk.toString()).build();
+	}
+
 	@GET
 	@Path("/{id}")
 	public Response read(@PathParam("id") Integer id) {
@@ -41,16 +51,6 @@ public class ArticleWebService {
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-	}
-
-	@POST
-	public Response create(@FormParam("title") String title,
-			@FormParam("content") String content) {
-		Boolean createOk = ArticleService.getInstance().addArticle(title,
-				content);
-		return Response
-				.status(createOk ? Status.OK : Status.INTERNAL_SERVER_ERROR)
-				.entity(createOk.toString()).build();
 	}
 	
 	@DELETE
