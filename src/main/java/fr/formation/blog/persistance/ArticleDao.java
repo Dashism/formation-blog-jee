@@ -20,7 +20,7 @@ public class ArticleDao implements Dao<Article> {
 	public Article create(Article entity) {
 		try {
 			Statement st = this.mysqlConn.getConn().createStatement();
-			String query = String.format(SqlQueries.UPDATE_ARTICLE,
+			String query = String.format(SqlQueries.CREATE_ARTICLE,
 					entity.getTitle(), entity.getContent());
 			System.out.println("Requête créer un article : " + query);
 			st.execute(query, Statement.RETURN_GENERATED_KEYS);
@@ -39,7 +39,8 @@ public class ArticleDao implements Dao<Article> {
 		Article result = null;
 		try {
 			Statement st = this.mysqlConn.getConn().createStatement();
-			ResultSet rs = st.executeQuery(SqlQueries.READ_ALL_ARTICLE);
+			ResultSet rs = st.executeQuery(
+					String.format(SqlQueries.READ_ARTICLE, id));
 			rs.next();
 			String title = rs.getString("title");
 			String content = rs.getString("content");
