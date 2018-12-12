@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource name="jdbc/formation" auth="Container"
+		type="javax.sql.DataSource" maxActive="5" maxIdle="3" maxWait="3000"
+		username="root" password="root" driverClassName="com.mysql.cj.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/blog?serverTimezone=Europe/Paris" />
+
+	<Realm className="org.apache.catalina.realm.DataSourceRealm"
+		dataSourceName="jdbc/formation" localDataSource="true"
+		userTable="users" userRoleTable="user_roles" userNameCol="user_name"
+		userCredCol="user_pass" roleNameCol="role_name" />
+</Context>

@@ -6,56 +6,112 @@
 	<display-name>blog</display-name>
 	
 	<servlet>
+		<servlet-name>Servlet de déconnexion</servlet-name>
+		<servlet-class>fr.formation.blog.presentation.LogoutServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Servlet de déconnexion</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>Jersey Web Services</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>fr.formation.blog.presentation.rest</param-value>
 		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+			<param-value>true</param-value>
+		</init-param>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>Jersey Web Services</servlet-name>
 		<url-pattern>/webservices/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>IndexServlet</servlet-name>
 		<servlet-class>fr.formation.blog.presentation.IndexServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>IndexServlet</servlet-name>
 		<url-pattern>/index.html</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>FormServlet</servlet-name>
 		<servlet-class>fr.formation.blog.presentation.FormServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>FormServlet</servlet-name>
 		<url-pattern>/form.html</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>DeleteServlet</servlet-name>
 		<servlet-class>fr.formation.blog.presentation.DeleteServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>DeleteServlet</servlet-name>
 		<url-pattern>/delete.html</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>DataServlet</servlet-name>
 		<servlet-class>fr.formation.blog.presentation.DataServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>DataServlet</servlet-name>
 		<url-pattern>/data/*</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+		<filter-name>Mon filtre ForceEncoding</filter-name>
+		<filter-class>fr.formation.blog.presentation.filter.ForceEncodingFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Mon filtre ForceEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<resource-ref>
+		<res-ref-name>jdbc/formation</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>All pages</web-resource-name>
+			<url-pattern>*.html</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Author</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<role-name>Author</role-name>
+	</security-role>
+	
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>
+			<form-error-page>/login_error.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
 </web-app>
+
+
+
+
+
