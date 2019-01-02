@@ -2,8 +2,12 @@ package fr.formation.blog.metier;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import fr.formation.blog.persistance.ArticleDao;
 
+@Service
 public class ArticleService {
 
 	private static final ArticleService INSTANCE = new ArticleService();
@@ -12,11 +16,12 @@ public class ArticleService {
 		return ArticleService.INSTANCE;
 	}
 
-	private final ArticleDao dao;
+	@Autowired
+	private ArticleDao dao;
 
-	public ArticleService() {
-		this.dao = new ArticleDao();
-	}
+//	public ArticleService() {
+//		this.dao = new ArticleDao();
+//	}
 
 	public List<Article> getAll() {
 		return this.dao.readAll();

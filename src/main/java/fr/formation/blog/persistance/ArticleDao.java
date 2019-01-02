@@ -6,13 +6,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.stereotype.Component;
+
 import fr.formation.blog.metier.Article;
 
+@Component
 public class ArticleDao implements Dao<Article> {
 
-	private final MySqlConnection mysqlConn;
+	private MySqlConnection mysqlConn;
 
-	public ArticleDao() {
+	@PostConstruct
+	public void init() {
 		this.mysqlConn = MySqlConnection.getInstance();
 	}
 

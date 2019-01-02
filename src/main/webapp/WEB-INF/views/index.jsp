@@ -12,7 +12,7 @@
 <body>
 	<div>
 		<a href="form.html">Créer un nouvel article</a>
-		<a href="logout">Déconnexion</a>
+		<a href="logout.html">Déconnexion</a>
 	</div>
 	<h1>Liste des articles :</h1>
 	<div>

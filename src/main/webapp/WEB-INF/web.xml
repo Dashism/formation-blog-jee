@@ -6,15 +6,16 @@
 	<display-name>blog</display-name>
 	
 	<servlet>
-		<servlet-name>Servlet de déconnexion</servlet-name>
-		<servlet-class>fr.formation.blog.presentation.LogoutServlet</servlet-class>
+		<servlet-name>spring-context</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>Servlet de déconnexion</servlet-name>
-		<url-pattern>/logout</url-pattern>
+		<servlet-name>spring-context</servlet-name>
+		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
 		<servlet-name>Jersey Web Services</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -31,46 +32,6 @@
 	<servlet-mapping>
 		<servlet-name>Jersey Web Services</servlet-name>
 		<url-pattern>/webservices/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>IndexServlet</servlet-name>
-		<servlet-class>fr.formation.blog.presentation.IndexServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>IndexServlet</servlet-name>
-		<url-pattern>/index.html</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>FormServlet</servlet-name>
-		<servlet-class>fr.formation.blog.presentation.FormServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>FormServlet</servlet-name>
-		<url-pattern>/form.html</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>DeleteServlet</servlet-name>
-		<servlet-class>fr.formation.blog.presentation.DeleteServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>DeleteServlet</servlet-name>
-		<url-pattern>/delete.html</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>DataServlet</servlet-name>
-		<servlet-class>fr.formation.blog.presentation.DataServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>DataServlet</servlet-name>
-		<url-pattern>/data/*</url-pattern>
 	</servlet-mapping>
 
 	<filter>
