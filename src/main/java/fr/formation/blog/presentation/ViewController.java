@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import fr.formation.blog.BlogConstants;
 import fr.formation.blog.metier.Article;
@@ -46,6 +49,11 @@ public class ViewController {
 	@Autowired
 	private ArticleService service;
 
+	/**
+	 * Valeur initiale de l'attribut en session (non obligatoire).
+	 * 
+	 * @return String une valeur par défaut arbitraire.
+	 */
 	@ModelAttribute("author")
 	public String defaultAuthor() {
 		return "DEFAULT_AUTHOR";
@@ -58,8 +66,10 @@ public class ViewController {
 	 * @return ModelAndView la vue index.
 	 */
 	@RequestMapping({ "", "index" })
-	public ModelAndView index(HttpServletRequest request) {
+	public ModelAndView index(HttpServletRequest request,
+			@RequestParam(required = false) String message) {
 		LOGGER.debug("Page d'accueil index !");
+		LOGGER.debug("Message récupéré après redirection ? '" + message + "'");
 		ModelAndView mav = new ModelAndView();
 		// Il suffit d'ajouter la clé "author" au model pour que la valeur soit
 		// conservée en session (grâce à l'annotation sur la classe).
@@ -109,8 +119,18 @@ public class ViewController {
 	 * @return String la chaine de redirection vers index.
 	 */
 	@RequestMapping(path = "form", method = RequestMethod.POST)
-	public String validateForm(Article article) {
-		this.service.addArticle(article.getTitle(), article.getContent());
+	public String validateForm(Article article, RedirectAttributes attributes) {
+		String message = null;
+		if (this.service.addArticle(article.getTitle(), article.getContent())) {
+			message = "Article bien ajouté !";
+		} else {
+			message = "Erreur : article non ajouté...";
+		}
+		// Utilisation des attributs flash de redirection (pas visible dans
+		// l'URL, contrairement aux attributs de redirection normaux).
+		// Le message sera reçu par le nouveau paramètre "message" de la méthode
+		// index (ciblée par la redirection).
+		attributes.addFlashAttribute("message", message);
 		// On change pour un type de retour String permettant de renvoyer
 		// uniquement le nom de vue de redirection.
 		return BlogConstants.REDIRECT_TO_INDEX;

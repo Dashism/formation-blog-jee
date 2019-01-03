@@ -15,6 +15,7 @@
 		<a href="logout.html">Déconnexion</a>
 		<span>Auteur -> ${author}</span>
 	</div>
+	<div>Message : ${message}</div>
 	<h1>Liste des articles :</h1>
 	<div>
 		<c:forEach var="article" items="${articles}">
