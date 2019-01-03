@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.formation.blog.BlogConstants;
 import fr.formation.blog.metier.Article;
 import fr.formation.blog.metier.ArticleService;
 
 @Controller
 @RequestMapping("/")
 public class ViewController {
-	
+
 	private static final Logger LOGGER = Logger.getLogger(ViewController.class);
 
 	@Autowired
@@ -38,7 +39,7 @@ public class ViewController {
 		mav.addObject("articles", this.service.getAll());
 		return mav;
 	}
-	
+
 	/**
 	 * Répond sur "http://localhost:8080/blog/delete.html?id=".
 	 * 
@@ -46,12 +47,14 @@ public class ViewController {
 	 * @return ModelAndView la vue index.
 	 */
 	@RequestMapping("delete")
-	public ModelAndView delete(@RequestParam Integer id) {
+	public String delete(@RequestParam Integer id) {
 		LOGGER.debug("Action suppression d'un article !");
 		this.service.deleteArticle(id);
-		return this.index();
+		// On change pour un type de retour String permettant de renvoyer
+		// uniquement le nom de vue de redirection.
+		return BlogConstants.REDIRECT_TO_INDEX;
 	}
-	
+
 	@RequestMapping("form")
 	public ModelAndView showCreateForm() {
 		LOGGER.debug("Action afficher formulaire de création d'article !");
@@ -59,16 +62,20 @@ public class ViewController {
 		mav.setViewName("form");
 		return mav;
 	}
-	
-	@RequestMapping(path="form", method=RequestMethod.POST)
-	public ModelAndView validateForm(Article article) {
+
+	@RequestMapping(path = "form", method = RequestMethod.POST)
+	public String validateForm(Article article) {
 		this.service.addArticle(article.getTitle(), article.getContent());
-		return this.index();
+		// On change pour un type de retour String permettant de renvoyer
+		// uniquement le nom de vue de redirection.
+		return BlogConstants.REDIRECT_TO_INDEX;
 	}
-	
+
 	@RequestMapping("logout")
-	public ModelAndView logout(HttpSession session) {
+	public String logout(HttpSession session) {
 		session.invalidate();
-		return new ModelAndView("redirect:/index.html");
+		// On change pour un type de retour String permettant de renvoyer
+		// uniquement le nom de vue de redirection.
+		return BlogConstants.REDIRECT_TO_INDEX;
 	}
 }
