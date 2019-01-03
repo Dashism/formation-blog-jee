@@ -107,6 +107,22 @@ public class ViewController {
 		LOGGER.debug("Action afficher formulaire de création d'article !");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("form");
+		// Préremplir le model avec un article existant pour le form:form de
+		// Spring.
+		mav.addObject("article", new Article());
+		mav.addObject("isEdit", false);
+		return mav;
+	}
+
+	@RequestMapping("form-edit")
+	public ModelAndView showEditForm(Integer id) {
+		LOGGER.debug(
+				"Action afficher formulaire de modification d'un article !");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("form");
+		// Préremplir le model avec l'article existant chargé depuis la BDD.
+		mav.addObject("article", this.service.getOne(id));
+		mav.addObject("isEdit", true);
 		return mav;
 	}
 
@@ -121,10 +137,14 @@ public class ViewController {
 	@RequestMapping(path = "form", method = RequestMethod.POST)
 	public String validateForm(Article article, RedirectAttributes attributes) {
 		String message = null;
-		if (this.service.addArticle(article.getTitle(), article.getContent())) {
+		if (article.getId() == null && this.service
+				.addArticle(article.getTitle(), article.getContent())) {
 			message = "Article bien ajouté !";
+		} else if (article.getId() != null && this.service.updateArticle(
+				article.getId(), article.getTitle(), article.getContent())) {
+			message = "Article bien modifié !";
 		} else {
-			message = "Erreur : article non ajouté...";
+			message = "Erreur : article non ajouté ou non modifié...";
 		}
 		// Utilisation des attributs flash de redirection (pas visible dans
 		// l'URL, contrairement aux attributs de redirection normaux).

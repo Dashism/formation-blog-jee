@@ -23,7 +23,8 @@
 				onmouseleave="leaveDiv(event)">
 				<h2>
 					${article.title}
-					<a href="delete.html?id=${article.id}">X</a>	
+					<a href="delete.html?id=${article.id}">X</a>
+					<a href="form-edit.html?id=${article.id}">Edit</a>
 				</h2>
 				<p>${article.content}</p>
 			</div>

@@ -19,12 +19,12 @@ public class ArticleService {
 	@Autowired
 	private ArticleDao dao;
 
-//	public ArticleService() {
-//		this.dao = new ArticleDao();
-//	}
-
 	public List<Article> getAll() {
 		return this.dao.readAll();
+	}
+	
+	public Article getOne(Integer id) {
+		return this.dao.read(id);
 	}
 
 	public boolean addArticle(String title, String content) {
