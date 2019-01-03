@@ -97,7 +97,9 @@ public class ViewController {
 	}
 
 	/**
-	 * Répond sur http://localhost:8080/blog/form.html.
+	 * Répond sur http://localhost:8080/blog/form.html. Prépare le formulaire
+	 * Spring de la JSP avec une nouvelle instance d'Article vide, prête à
+	 * recevoir les informations qui seront saisies par l'utilisateur.
 	 * 
 	 * @return ModelAndView la page contenant le formulaire de création
 	 *         d'article.
@@ -110,10 +112,19 @@ public class ViewController {
 		// Préremplir le model avec un article existant pour le form:form de
 		// Spring.
 		mav.addObject("article", new Article());
+		// On ajoute isEdit à faux pour l'affichage du titre de création dans la
+		// JSP.
 		mav.addObject("isEdit", false);
 		return mav;
 	}
 
+	/**
+	 * Répond sur http://localhost:8080/blog/form-edit.html?id=xx. Prépare le
+	 * formulaire Spring de la JSP avec l'article existant chargé depuis la BDD.
+	 * 
+	 * @return ModelAndView la page contenant le formulaire de création
+	 *         d'article.
+	 */
 	@RequestMapping("form-edit")
 	public ModelAndView showEditForm(Integer id) {
 		LOGGER.debug(
@@ -122,6 +133,8 @@ public class ViewController {
 		mav.setViewName("form");
 		// Préremplir le model avec l'article existant chargé depuis la BDD.
 		mav.addObject("article", this.service.getOne(id));
+		// On ajoute isEdit à vrai pour l'affichage du titre de modification (+
+		// le champ caché pour l'id) dans la JSP.
 		mav.addObject("isEdit", true);
 		return mav;
 	}
@@ -137,6 +150,8 @@ public class ViewController {
 	@RequestMapping(path = "form", method = RequestMethod.POST)
 	public String validateForm(Article article, RedirectAttributes attributes) {
 		String message = null;
+		// Si l'identifiant est null alors on peut effectuer la création, et si la création
+		// renvoie vrai alors on met le message de succès, sinon on passe au else if suivant.
 		if (article.getId() == null && this.service
 				.addArticle(article.getTitle(), article.getContent())) {
 			message = "Article bien ajouté !";
