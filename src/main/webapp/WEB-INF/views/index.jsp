@@ -13,6 +13,7 @@
 	<div>
 		<a href="form.html">Créer un nouvel article</a>
 		<a href="logout.html">Déconnexion</a>
+		<span>Auteur -> ${author}</span>
 	</div>
 	<h1>Liste des articles :</h1>
 	<div>

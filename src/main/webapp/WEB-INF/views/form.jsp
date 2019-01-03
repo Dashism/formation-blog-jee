@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h1>Créer un article :</h1>
+	<span>Auteur -> ${author}</span>
 	<form method="post" action="" onsubmit="validateForm(event)">
 		<div class="form-group">
 			<label for="title">Titre :</label>
@@ -19,6 +20,7 @@
 				class="form-control"></textarea>
 		</div>
 		<button>Valider</button>
+		<a href="index.html">Retour à l'accueil</a>
 	</form>
 	<script src="js/form.js"></script>
 </body>
