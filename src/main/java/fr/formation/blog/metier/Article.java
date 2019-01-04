@@ -2,6 +2,15 @@ package fr.formation.blog.metier;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Définition d'un POJO (Plain Old Java Object), une classe qui respecte les
  * contraintes suivantes :
@@ -12,12 +21,20 @@ import java.util.Objects;
  * <li style="color:red;">Surtout pas de méthodes de traitement !</li>
  * </ul>
  */
+@Entity
+@Table(name="article")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Article {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column
 	private Integer id;
 
+	@Column
 	private String title;
 
+	@Column
 	private String content;
 
 	public Article() {

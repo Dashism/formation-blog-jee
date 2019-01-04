@@ -1,76 +1,59 @@
 package fr.formation.blog.presentation.rest;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import java.util.List;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.formation.blog.metier.Article;
 import fr.formation.blog.metier.ArticleService;
 
-@Path("/article")
+@RestController
+@RequestMapping("/article")
+@Transactional(readOnly=true)
 public class ArticleWebService {
+	
+	@Autowired
+	private ArticleService service;
 
-	@GET
-	public Response list() {
-		return Response.status(Status.OK.getStatusCode())
-				.entity(ArticleService.getInstance().getAll().toString())
-				.build();
+	@GetMapping
+	public List<Article> list() {
+		return this.service.readAll();
 	}
-
-	@POST
-	public Response create(@FormParam("title") String title,
-			@FormParam("content") String content) {
-		Boolean createOk = ArticleService.getInstance().addArticle(title,
-				content);
-		return Response
-				.status(createOk ? Status.OK : Status.INTERNAL_SERVER_ERROR)
-				.entity(createOk.toString()).build();
+	
+	@PostMapping
+	public Article create(@RequestBody Article article) {
+		return this.service.create(article);
 	}
-
-	@GET
-	@Path("/{id}")
-	public Response read(@PathParam("id") Integer id) {
-		// Construire l'article à chercher dans la liste.
-		Article searchedArticle = new Article();
-		// Remplir son identifiant avec celui demandé dans l'URL.
-		searchedArticle.setId(id);
-		// Je récupère l'indice ou se trouve l'article cherché dans la liste.
-		int index = ArticleService.getInstance().getAll()
-				.indexOf(searchedArticle);
-		if (index >= 0) {
-			// Je retrouve l'article demandé dans la liste grâce à l'indice.
-			Article article = ArticleService.getInstance().getAll().get(index);
-
-			// Je construis la réponse HTTP avec javax.ws.rs.Response.
-			return Response.ok(article.toString()).build();
-		} else {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+	
+	@GetMapping("/{id}")
+	public Article read(@PathVariable Integer id) {
+		Article article = this.service.read(id);
+		Hibernate.initialize(article);
+		return article;
 	}
-
-	@DELETE
-	@Path("/{id}")
-	public Response delete(@PathParam("id") Integer id) {
-		ArticleService.getInstance().deleteArticle(id);
-		return Response.noContent().build();
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable Integer id) {
+		this.service.delete(id);
 	}
-
-	@PUT
-	public Response update(@FormParam("id") Integer id,
-			@FormParam("title") String title,
-			@FormParam("content") String content) {
-		if (ArticleService.getInstance().updateArticle(id, title, content)) {
-			return Response.noContent().build();
-		} else {
-			return Response.status(Status.BAD_REQUEST).entity(
-					"Le paramètre 'id' est manquant dans le corps de la requête.")
-					.build();
-		}
+	
+	@PutMapping("/{id}")
+	public Article update(@PathVariable Integer id,
+			@RequestBody Article article) {
+		return this.service.update(article);
 	}
+	
 }

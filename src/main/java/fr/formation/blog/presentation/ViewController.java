@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +35,7 @@ import fr.formation.blog.metier.ArticleService;
 @SessionAttributes({ "author" })
 // Déclaration d'une portée pour ce controller permettant d'être unique par session utilisateur.
 @Scope("session")
+@Transactional(readOnly=true)
 public class ViewController {
 
 	/**
@@ -75,7 +77,7 @@ public class ViewController {
 		// 1. Configurer la vue.
 		mav.setViewName("index");
 		// 2. Ajouter les données nécessaires à la vue.
-		mav.addObject("articles", this.service.getAll());
+		mav.addObject("articles", this.service.readAll());
 		return mav;
 	}
 
@@ -88,7 +90,7 @@ public class ViewController {
 	@RequestMapping("delete")
 	public String delete(@RequestParam Integer id) {
 		LOGGER.debug("Action suppression d'un article !");
-		this.service.deleteArticle(id);
+		this.service.delete(id);
 		// On change pour un type de retour String permettant de renvoyer
 		// uniquement le nom de vue de redirection.
 		return BlogConstants.REDIRECT_TO_INDEX;
@@ -130,7 +132,7 @@ public class ViewController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("form");
 		// Préremplir le model avec l'article existant chargé depuis la BDD.
-		mav.addObject("article", this.service.getOne(id));
+		mav.addObject("article", this.service.read(id));
 		// On ajoute isEdit à vrai pour l'affichage du titre de modification (+
 		// le champ caché pour l'id) dans la JSP.
 		mav.addObject("isEdit", true);
@@ -148,13 +150,14 @@ public class ViewController {
 	@RequestMapping(path = "form", method = RequestMethod.POST)
 	public String validateForm(Article article, RedirectAttributes attributes) {
 		String message = null;
-		// Si l'identifiant est null alors on peut effectuer la création, et si la création
-		// renvoie vrai alors on met le message de succès, sinon on passe au else if suivant.
-		if (article.getId() == null && this.service
-				.addArticle(article.getTitle(), article.getContent())) {
+		// Si l'identifiant est null alors on peut effectuer la création, et si
+		// la création
+		// renvoie vrai alors on met le message de succès, sinon on passe au
+		// else if suivant.
+		if (article.getId() == null && this.service.create(article) != null) {
 			message = "Article bien ajouté !";
-		} else if (article.getId() != null && this.service.updateArticle(
-				article.getId(), article.getTitle(), article.getContent())) {
+		} else if (article.getId() != null
+				&& this.service.update(article) != null) {
 			message = "Article bien modifié !";
 		} else {
 			message = "Erreur : article non ajouté ou non modifié...";

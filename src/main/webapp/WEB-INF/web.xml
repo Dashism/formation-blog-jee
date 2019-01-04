@@ -14,26 +14,9 @@
 	<servlet-mapping>
 		<servlet-name>spring-context</servlet-name>
 		<url-pattern>*.html</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>Jersey Web Services</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>fr.formation.blog.presentation.rest</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Jersey Web Services</servlet-name>
 		<url-pattern>/webservices/*</url-pattern>
 	</servlet-mapping>
-
+	
 	<filter>
 		<filter-name>Mon filtre ForceEncoding</filter-name>
 		<filter-class>fr.formation.blog.presentation.filter.ForceEncodingFilter</filter-class>
