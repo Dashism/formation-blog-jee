@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -132,7 +133,9 @@ public class ViewController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("form");
 		// Préremplir le model avec l'article existant chargé depuis la BDD.
-		mav.addObject("article", this.service.read(id));
+		Article article = this.service.read(id);
+		Hibernate.initialize(article);
+		mav.addObject("article", article);
 		// On ajoute isEdit à vrai pour l'affichage du titre de modification (+
 		// le champ caché pour l'id) dans la JSP.
 		mav.addObject("isEdit", true);
