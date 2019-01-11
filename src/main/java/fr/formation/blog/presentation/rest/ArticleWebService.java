@@ -23,7 +23,11 @@ import fr.formation.blog.metier.ArticleService;
 @RestController
 @RequestMapping("/article")
 @Transactional(readOnly=true)
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { 
+		// Pour déploiement avec 'ng serve'.
+		"http://localhost:4200",
+		// Pour déploiement avec 'ng build --base-href="/blog-angular/"'.
+		"http://localhost:8080" })
 public class ArticleWebService {
 	
 	@Autowired
