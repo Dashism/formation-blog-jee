@@ -1,5 +1,6 @@
 package fr.formation.blog.metier;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -36,6 +37,17 @@ public class Article {
 
 	@Column
 	private String content;
+	
+	@Column
+	private LocalDate date;
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 
 	public Article() {
 	}
